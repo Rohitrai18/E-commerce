@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+  <form>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control email" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control password" id="exampleInputPassword1">
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary submit">Submit</button>
+  </form>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+    <script>
+      document.querySelector('.submit').addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        let dataObj = {
+          "ranimeriabc@gmail.com" : {email: "ranimeriabc@gmail.com", pswd: "Pass@123"},
+          "dbfjdgdg@gmail.com" : {email: "dbfjdgdg@gmail.com", pswd: "Pass@123"},
+          "rani26@gmail.com" : {email: "rani26@gmail.com", pswd: "Pass@123"},
+          "abclive@gmail.com" : {email: "abclive@gmail.com", pswd: "Pass@123"},
+          "xyz001@gmail.com" : {email: "xyz001@gmail.com", pswd: "Pass@123"},
+          "xyz@gmail.com" : {email: "xyz@gmail.com", pswd: "Pass@123"},
+          "abcexcited@gmail.com" : {email: "abcexcited@gmail.com", pswd: "Pass@123"},
+          "abcnew@gmail.com" : {email: "abcnew@gmail.com", pswd: "Pass@123"},
+          "djhfdnew@gmail.com" : {email: "djhfdnew@gmail.com", pswd: "Pass@123"},
+          "jsfsdnew@gmail.com" : {email: "jsfsdnew@gmail.com", pswd: "Pass@123"},
+          "zzzzzz@gmail.com" : {email: "zzzzzz@gmail.com", pswd: "Pass@123"},
+          "zzzzzzxx@gmail.com" : {email: "zzzzzz@gmail.com", pswd: "Pass@123"},
+          "aab012@gmail.com" : {email: "aab012@gmail.com", pswd: "Pass@123"},
+          "disturbJaan@gmail.com" : {email: "disturbJaan@gmail.com", pswd: "Pass@123"},
+          "": {}
+        };
+
+        let Email = document.querySelector('.email').value;
+        let Pswd = document.querySelector('.password').value;
+        
+        if(localStorage.getItem('objabc') == null) {
+          localStorage.setItem('objabc', JSON.stringify(dataObj));
+        }
+        else if(Object.keys(dataObj).length !== Object.keys(JSON.parse(localStorage.getItem('objabc'))).length) {
+          storageData = JSON.parse(localStorage.getItem('objabc'));
+          let currentEmail, currentPSWD;
+          for(let item in dataObj) {
+            if(storageData.hasOwnProperty(item)) {
+              continue;
+            }
+            else {
+              localStorage.setItem('objabc', JSON.stringify(Object.assign(storageData, {[item] : dataObj[item]})));
+              if(Email == item) {
+                currentEmail = item;
+                currentPSWD = dataObj[item].pswd;
+              }
+            }
+          }
+          if(Email == currentEmail && Pswd == currentPSWD) {
+            window.location.href = 'home.html';
+          }
+        }
+        else {
+
+          let localData = JSON.parse(localStorage.getItem('objabc'))
+  
+          if(localData.hasOwnProperty(Email)) {
+           if (localData[Email].pswd == Pswd) {
+              window.location.href = 'home.html';
+            }
+            else {
+              alert('You entered wrong Password. Please Enter Correct Password.');
+              return false;
+            }
+          }
+          else {
+            alert('The Email ID does not exist.');
+            return false
+          }
+        }
+
+      });
+    </script>
+
+  <!-- <script>
+    function valEmail(email) {
+      const emailPatt = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailPatt.test(email);
+    }
+    const email = "bharti21rani@gmail.com";
+    // console.log(valEmail(email));
+
+
+
+
+    let subbtn = document.querySelector(".submit");
+    userInfo = {};
+    subbtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      let Email = document.querySelector(".email").value;
+      let pass = document.querySelector(".password").value;
+      // console.log(userInfo)
+      let userDetails = JSON.parse(localStorage.getItem('userDet'));
+
+      if (userDetails) {
+        if (userDetails.Email !== Email) {
+          console.log("Invalid Email");
+          alert("Invalid email.")
+        } else if (userDetails.Pswd !== pass) {
+          console.log("Invalid password");
+          alert("Invalid password.")
+        } else {
+          console.log("Login Successful!");
+        }
+      }
+      else {
+        console.log("All well");
+      }
+
+      // if (userDetails && userDetails.Email === Email && userDetails.Pswd === pass) {
+      //   console.log("Login Successful!");
+      // } else {
+      //   console.log("Please enter valid email or password");
+      //   alert("Please enter valid email or password");
+      // }
+
+      userDetails = ({
+        "email": Email,
+        "password": pass
+      })
+      console.log(userDetails);
+      userInfo.Email = Email;
+      userInfo.Pswd = pass;
+      console.log(userInfo);
+      localStorage.setItem('userDet', JSON.stringify(userInfo));
+    });
+  </script> -->
+
+  <!-- <script>
+    let subbtn = document.querySelector(".submit");
+    subbtn.addEventListener('click', function (event) {
+      event.preventDefault();
+      let data = localStorage.getItem("userData");
+      if (Email == Email && pass == pass) {
+        window.location.href = 'home.html'
+        // console.log("Login successful");
+      } else {
+        console.log("Please enter valid email and password");
+      }
+    })
+  </script> -->
+
+</body>
+
+</html>
